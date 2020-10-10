@@ -1,4 +1,4 @@
-import {URL_LIST,URL_SEARCH, URL_DETAIL, URL_PERSON, URL_CAST, URL_VIDEO, API_KEY, API_KEY_ALT} from '../const';
+import {URL_LIST,URL_SEARCH, URL_DETAIL, URL_PERSON, URL_CAST, URL_VIDEO, API_KEY, API_KEY_ALT, URL_SIMILAR} from '../const';
 // action types
 export const SEARCH_MOVIE = 'SEARCH_MOVIE';
 export const SEARCH_MOVIE_SUCCESS = 'SEARCH_MOVIE_SUCCESS';
@@ -18,6 +18,9 @@ export const FETCH_CASTS_FAILURE = 'FETCH_CASTS_FAILURE';
 export const FETCH_TRAILERS = 'FETCH_TRAILERS';
 export const FETCH_TRAILERS_SUCCESS = 'FETCH_TRAILERS_SUCCESS';
 export const FETCH_TRAILERS_FAILURE = 'FETCH_TRAILERS_FAILURE';
+export const FETCH_SIMILAR = 'FETCH_SIMILAR';
+export const FETCH_SIMILAR_SUCCESS = 'FETCH_SIMILARS_SUCCESS';
+export const FETCH_SIMILAR_FAILURE = 'FETCH_SIMILARS_FAILURE';
 
 function searchMovie(searchText) {
   return {
@@ -135,6 +138,26 @@ function fetchTrailersFail(error) {
   };
 }
 
+function fetchSimilarMovies() {
+  return {
+    type: FETCH_SIMILAR
+  };
+}
+
+function fetchSimilarMoviesSuccess(data) {
+  return {
+    type: FETCH_SIMILAR_SUCCESS,
+    data
+  };
+}
+
+function fetchSimilarMoviesFail(error) {
+  return {
+    type: FETCH_SIMILAR_FAILURE,
+    error
+  };
+}
+
 export function searchMovieList(keyword){
   let url = URL_SEARCH + keyword + API_KEY_ALT;
   return function(dispatch){
@@ -195,8 +218,25 @@ export function fetchCastList(id){
   }
 }
 
+export function fetchSimilarList(id){
+  const url_similar = URL_DETAIL + id + URL_SIMILAR + API_KEY;
+  console.log(url_similar)
+  
+  return function(dispatch){
+    dispatch(fetchSimilarMovies())
+    return fetch(url_similar)
+    .then(response => response.json())
+    //.then(json => data.json())
+    .then(data => dispatch(fetchSimilarMoviesSuccess(data)))
+      
+    .catch(error => dispatch(fetchSimilarMoviesFail(error)))
+      
+  }
+}
+
 export function fetchTrailerList(id){
   const url_trailers = URL_DETAIL + id + URL_VIDEO + API_KEY;
+  
   return function(dispatch){
     dispatch(fetchTrailers())
     return fetch(url_trailers)
@@ -210,3 +250,4 @@ export function fetchTrailerList(id){
       }).catch(error => dispatch(fetchTrailersFail(error)))
   }
 }
+

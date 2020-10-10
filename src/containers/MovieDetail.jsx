@@ -4,7 +4,7 @@ import { CAST_MAX_NUM, TRAILER_MAX_NUM } from '../const';
 import { Grid, Row, Col} from 'react-bootstrap/lib';
 import { MovieInfo, Poster } from '../components';
 import { connect } from 'react-redux';
-import { fetchMovieDetail, fetchCastList, fetchTrailerList} from '../actions';
+import { fetchMovieDetail, fetchCastList, fetchTrailerList, fetchSimilarList} from '../actions';
 
 class MovieDetail extends Component {
 
@@ -13,6 +13,7 @@ class MovieDetail extends Component {
     dispatch(fetchMovieDetail(this.props.params.id));
     dispatch(fetchCastList(this.props.params.id));
     dispatch(fetchTrailerList(this.props.params.id));
+    dispatch(fetchSimilarList(this.props.params.id));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -21,6 +22,7 @@ class MovieDetail extends Component {
          dispatch(fetchMovieDetail(nextProps.params.id));
          dispatch(fetchCastList(nextProps.params.id));
          dispatch(fetchTrailerList(nextProps.params.id));
+         dispatch(fetchSimilarList(nextProps.params.id));
       }
   }
 

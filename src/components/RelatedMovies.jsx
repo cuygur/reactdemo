@@ -1,21 +1,21 @@
 import React from 'react';
-import Cast from './Cast';
+import Related from './Related';
 import {Link} from 'react-router';
 import { Row, Col, Container } from 'react-bootstrap';
 import styled from 'styled-components';
 
-export default function CastList({data}) {
+export default function RelatedMovies({data}) {
   const StyledLink = styled(Link)`
     &:hover {
       text-decoration:none;
     }
   `;
-    let casts = data.map(function(cast) {
-      if(cast.profile_path != null) {
+    let relatedMovies = data.map(function(related) {
+      if(related.profile_path != null) {
         return(
           
-            <Col xs={4} sm={3} md={2} key={cast.id} >
-              <StyledLink to={'/star/'+cast.id} ><Cast cast={cast} /></StyledLink>
+            <Col xs={4} sm={3} md={2} key={movie.id} >
+              <StyledLink to={'/star/'+movie.id} ><Cast movie={movie} /></StyledLink>
             </Col>
           
         );
@@ -27,9 +27,9 @@ export default function CastList({data}) {
     return(
       
         <div>
-        <h2>Casts</h2>
+        <h2>Related Movies</h2>
         <Row>
-          {casts}
+          {relatedMovies}
         </Row>
         
         </div>
